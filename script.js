@@ -72,7 +72,6 @@ function addMovie(movie) {
     movieList.removeChild(li);
     localStorage.removeItem(movie.id);
   
-    
   });
 
 
