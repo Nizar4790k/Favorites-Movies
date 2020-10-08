@@ -44,6 +44,10 @@ ul{
     
 }
 
+.deleteButton:hover{
+    cursor: pointer;
+}
+
 
 
 
