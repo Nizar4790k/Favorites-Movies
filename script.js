@@ -3,87 +3,64 @@ var addButton = document.getElementById("addButton");
 var movieList = document.getElementById("movieList");
 
 
-
 function Movie(id,name){
   this.name=name;
   this.id=id;
 }
 
 
-
-
 addButton.addEventListener("click", (ev) => {
 
   var movie = new Movie(createUUID(),textArea.value);
   
-
-  localStorage.setItem(movie.id,movie.name);
+  addMovieToLocalStorage(movie);
   
-  addMovie(movie);
-
-  
-  
-
+  addMovieToUI(movie);
 });
 
 
-document.addEventListener("DOMContentLoaded", function () {
-
-  reloadMovies();
+document.addEventListener("DOMContentLoaded",loadMovies);
 
 
-});
-
-
-
-
-
-
-
-function addMovie(movie) {
+function addMovieToUI(movie) {
 
 
 
   const li = document.createElement("li");
   const deleteButton = document.createElement("a");
+
   deleteButton.classList.add("deleteButton");
   deleteButton.appendChild(document.createTextNode("X"));
 
- 
 
-  deleteButton.addEventListener("click",function (ev){
-    
-
+  deleteButton.addEventListener("click",function deleteMovieFromUI(ev){
     var deleteButton = ev.target
     var li = deleteButton.parentElement;
-    
+
     movieList.removeChild(li);
-    localStorage.removeItem(movie.id);
-  
+    deleteMovieFromLocalStorage(movie);
   });
-
-
-  
-
-
-
 
 
   li.appendChild(document.createTextNode(movie.name));
   li.appendChild(deleteButton);
   movieList.appendChild(li);
   
-
-  
- 
   textArea.value="";
 
 
 }
 
+function deleteMovieFromLocalStorage(movie){
+  localStorage.removeItem(movie.id);
+}
+
+function addMovieToLocalStorage(movie){
+  localStorage.setItem(movie.id,movie.name);
+}
 
 
-function reloadMovies(){
+function loadMovies(){
   
   movieList.innerHTML="";
 
@@ -92,17 +69,14 @@ function reloadMovies(){
   for (var i = 0; i < size; i++) {
 
 
-
     var key = localStorage.key(i);
 
     var movie = new Movie(key,localStorage.getItem(key));
  
-    addMovie(movie);
+    addMovieToUI(movie);
 
   }
 }
-
-
 
 function createUUID() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
