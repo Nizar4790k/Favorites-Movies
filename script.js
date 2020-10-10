@@ -4,31 +4,18 @@ var movieList = document.getElementById("movieList");
 
 
 
-class Movie{
-
-
-
-  createMovie(name){
-    this.id=createUUID();
-    this.name=name;
-  }
-
-
-
-  createMovieFromInfo(id,name){
-    this.id=id;
-    this.name=name;
-  }
-
-  
+function Movie(id,name){
+  this.name=name;
+  this.id=id;
 }
+
+
 
 
 addButton.addEventListener("click", (ev) => {
 
-  var movie = new Movie();
-  movie.createMovie(textArea.value);
-
+  var movie = new Movie(createUUID(),textArea.value);
+  
 
   localStorage.setItem(movie.id,movie.name);
   
@@ -46,6 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 });
+
 
 
 
@@ -107,8 +95,8 @@ function reloadMovies(){
 
     var key = localStorage.key(i);
 
-    var movie = new Movie();
-    movie.createMovieFromInfo(key,localStorage.getItem(key));
+    var movie = new Movie(key,localStorage.getItem(key));
+ 
     addMovie(movie);
 
   }
